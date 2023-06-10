@@ -35,5 +35,5 @@ def index():
     return render_template('index.html',total_count=total_count)
 
 if __name__ == '__main__':
-    app.run(port=5001)
+    app.run(port=5000)
 
