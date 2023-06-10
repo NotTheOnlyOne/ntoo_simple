@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Database</title>
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+	h1 {
+	    color:#ee6a2c;
+	}
+        .tiles-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);`
+            grid-gap: 20px 10px;
+        }
+        .tile {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            width: 300px;
+	    margin-bottom: 40px; 
+ 	    position: relative; 
+        }
+
+	.btn-group {
+	    position: absolute; /* Added */
+	    bottom: 10px; /* Added */
+	}
+        .tile h3 {
+            margin-top: 0;
+        }
+        .tile p {
+            margin-bottom: 35px;
+        }
+        .tile .url {
+            display: block;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: #0366d6;
+        }
+        .copy-btn {
+            display: inline-block;
+            background-color: #ee6a2c;
+            color: #fff;
+            font-size:15px;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+	.url-btn {
+	    display: inline-block;
+            background-color: #ee6a2c;
+	    color: #fff;
+            font-size:15px;
+	    border: none;
+	    padding: 5px 10px;
+	    border-radius: 3px;
+	    cursor: pointer;
+	    text-decoration: none;
+	}
+
+	.url-btn:hover {
+	    background-color: #0350a8;
+	    text-decoration: none;
+	}
+
+    </style>
+    <script>
+        function copyToClipboard(title, text, url) {
+            const data = `${title}\n${text}\n${url}`;
+            navigator.clipboard.writeText(data).then(function() {
+                alert('Copied to clipboard!');
+            }).catch(function() {
+                alert('Unable to copy to clipboard!');
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Search Database</h1>
+    <form action="/" method="POST">
+        <input type="text" name="search_query" placeholder="Enter search query" required>
+        <button type="submit">Search</button>
+    </form>
+    {% if results %}
+        <h2>Search Results</h2>
+        <div class="tiles-container">
+            {% for result in results %}
+                <div class="tile">
+                    <h3>{{ result[0] }}</h3>
+                    <p>{{ result[1] }}</p>
+		    <div class="btn-group">
+		        <a href="{{ result[2] }}" class="btn btn-link url-btn">Original URL</a>
+                        <button class="copy-btn" onclick="copyToClipboard('{{ result[0] }}', '{{ result[1] }}', '{{ result[2] }}')">Copy</button>
+	            </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</body>
+</html>
+
