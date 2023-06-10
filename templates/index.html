@@ -27,6 +27,7 @@
             border-radius: 5px;
             background-color: #f9f9f9;
             width: 300px;
+	    max-height: 500px;
 	    margin-bottom: 40px; 
  	    position: relative; 
         }
@@ -40,6 +41,7 @@
         }
         .tile p {
             margin-bottom: 35px;
+	    overflow-wrap: break-word;
         }
         .tile .url {
             display: block;
@@ -106,7 +108,7 @@
             {% for result in results %}
                 <div class="tile">
                     <h3>{{ result[0] }}</h3>
-                    <p>{{ result[1] }}</p>
+                    <p>{{ result[1]|truncate(800, True, '...') }}</p>
 		    <div class="btn-group">
 		        <a href="{{ result[2] }}" class="btn btn-link url-btn">Original URL</a>
                         <button class="copy-btn" onclick="copyToClipboard('{{ result[0] }}\n', '{{ result[1] }}\n', '{{ result[2] }}\n')">Copy</button>
