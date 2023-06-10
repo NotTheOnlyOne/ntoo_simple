@@ -79,7 +79,7 @@
         function copyToClipboard(title, text, url) {
             const data = `${title}\n${text}\n${url}`;
             navigator.clipboard.writeText(data).then(function() {
-                alert('Copied to clipboard!');
+                // alert('Copied to clipboard!');
             }).catch(function() {
                 alert('Unable to copy to clipboard!');
             });
@@ -101,7 +101,7 @@
                     <p>{{ result[1] }}</p>
 		    <div class="btn-group">
 		        <a href="{{ result[2] }}" class="btn btn-link url-btn">Original URL</a>
-                        <button class="copy-btn" onclick="copyToClipboard('{{ result[0] }}', '{{ result[1] }}', '{{ result[2] }}')">Copy</button>
+                        <button class="copy-btn" onclick="copyToClipboard('{{ result[0] }}\n', '{{ result[1] }}\n', '{{ result[2] }}\n')">Copy</button>
 	            </div>
                 </div>
             {% endfor %}
