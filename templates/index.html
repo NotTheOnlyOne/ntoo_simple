@@ -9,7 +9,10 @@
             margin: 0;
             padding: 20px;
         }
-
+	#statistics_search, #statistics {
+	    margin-top: 10px;
+	    margin-bottom: 10px;
+	}
 	h1 {
 	    color:#ee6a2c;
 	}
@@ -88,12 +91,17 @@
 </head>
 <body>
     <h1>Search Database</h1>
+    {% if total_count %}
+	<div id="statistics">Total items:{{ total_count }}</div>
+    {% endif %}
     <form action="/" method="POST">
         <input type="text" name="search_query" placeholder="Enter search query" required>
         <button type="submit">Search</button>
     </form>
     {% if results %}
         <h2>Search Results</h2>
+	<div id="statistics_search">Found items:{{ results|length }}</div>
+	
         <div class="tiles-container">
             {% for result in results %}
                 <div class="tile">
