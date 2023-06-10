@@ -1,9 +1,11 @@
 from flask import Flask, render_template, request
 import csv
+import random
 
 app = Flask(__name__)
 data = []
 total_count = 0
+choose_number_initial_items = 9
 
 # Load the data from the TSV file
 def load_data():
@@ -20,6 +22,12 @@ def load_data():
 
     total_count = len(data)
 
+
+def choose_random_rows(data,choose_number_initial_items):
+    random_rows = random.sample(data, choose_number_initial_items)
+    return random_rows
+
+
 load_data()  # Call load_data() to initialize the data at the start
 
 @app.route('/', methods=['GET', 'POST'])
@@ -32,7 +40,15 @@ def index():
             if search_query in title_lower or search_query in text_lower:
                 results.append((title, text, url))
         return render_template('index.html', results=results,total_count=total_count)
-    return render_template('index.html',total_count=total_count)
+    else:
+        random_rows = choose_random_rows(data,choose_number_initial_items)
+        results = []
+        for random_row in random_rows:
+            title_lower, title, text_lower, text, url = random_row
+            results.append((title, text, url))
+            		
+        
+        return render_template('index.html',results=results,total_count=total_count)
 
 if __name__ == '__main__':
     app.run(port=5000)
