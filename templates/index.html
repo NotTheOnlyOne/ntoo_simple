@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Database</title>
     <style>
 
         body {
             font-family: Arial, sans-serif;
+	    font-size: 20px;
             margin: 0;
             padding: 20px;
         }
@@ -19,7 +21,7 @@
 
         .tiles-container {
             display: grid;
-	    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             grid-gap: 20px 10px;
         }
         .tile {
@@ -28,7 +30,7 @@
             border-radius: 5px;
             background-color: #f9f9f9;
             width: 300px;
-	    max-height: 500px;
+	    max-height: 750px;
 	    margin-bottom: 40px; 
  	    position: relative; 
         }
@@ -42,6 +44,7 @@
         }
         .tile p {
             margin-bottom: 35px;
+	    font-size: 20px;
 	    overflow-wrap: break-word;
         }
         .tile .url {
@@ -56,7 +59,7 @@
             display: inline-block;
             background-color: #ee6a2c;
             color: #fff;
-            font-size:15px;
+            font-size:20px;
             border: none;
             padding: 5px 10px;
             border-radius: 3px;
@@ -67,7 +70,7 @@
 	    display: inline-block;
             background-color: #ee6a2c;
 	    color: #fff;
-            font-size:15px;
+            font-size:20px;
 	    border: none;
 	    padding: 5px 10px;
 	    border-radius: 3px;
@@ -81,17 +84,32 @@
 	}
 
 	/* Media query for mobile devices */
-	@media (max-width: 767px) {
-          body { font-size:40px; }
-	  
+	@media screen and (max-width: 800px) {
 	  .tiles-container {
 	    grid-template-columns: 1fr; /* Change to a single column layout */
 	  }
-
-	  .tiles p {
-	    font-size:40px;
+	 /*
+	 .tile {
+	    max-height:1100px;
 	  }
+	
+	  .tile h3 {
+	    font-size: 35px;
+	  }
+
+	  .tile p {
+	    font-size: 25px;
+	  }
+
+	  body {
+	    font-size: 25px;
+	  }
+	*/
 	}
+
+    </style>
+    <script>
+
     </style>
     <script>
         function copyToClipboard(title, text, url) {
