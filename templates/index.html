@@ -17,14 +17,6 @@
 	    color:#ee6a2c;
 	}
 
-	/* Media query for mobile devices */
-	@media (max-width: 767px) {
-          body { font-size:20px; }
-	  
-	  .tiles-container {
-	    grid-template-columns: 1fr; /* Change to a single column layout */
-	  }
-	}
         .tiles-container {
             display: grid;
 	    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -88,6 +80,18 @@
 	    text-decoration: none;
 	}
 
+	/* Media query for mobile devices */
+	@media (max-width: 767px) {
+          body { font-size:40px; }
+	  
+	  .tiles-container {
+	    grid-template-columns: 1fr; /* Change to a single column layout */
+	  }
+
+	  .tiles p {
+	    font-size:40px;
+	  }
+	}
     </style>
     <script>
         function copyToClipboard(title, text, url) {
