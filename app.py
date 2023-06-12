@@ -2,7 +2,9 @@ from flask import Flask, render_template, request
 import csv
 import random
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
+
+
 data = []
 total_count = 0
 choose_number_initial_items = 9

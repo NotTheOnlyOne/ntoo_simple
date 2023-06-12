@@ -3,9 +3,17 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Not the Only One - Search Database of Diversity, Equity, and Inclusion articles and quotes</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='ntoo_logo.png') }}">
  
     <style>
-
+	#logo {
+	    width: 110px;
+	    float:left;
+        }
+	#introduction {
+	    clear:both;
+	    margin-top: 60px;
+	}
 	button, input {
 	    font-size: 20px;
 	}
@@ -25,6 +33,7 @@
 	    margin-bottom: 10px;
 	}
 	h1 {
+	    margin-top:35px;
 	    color:#ee6a2c;
 	}
 	h1 a {
@@ -100,23 +109,10 @@
 	  .tiles-container {
 	    grid-template-columns: 1fr; /* Change to a single column layout */
 	  }
-	 /*
-	 .tile {
-	    max-height:1100px;
-	  }
-	
-	  .tile h3 {
-	    font-size: 35px;
-	  }
-
-	  .tile p {
-	    font-size: 25px;
-	  }
-
-	  body {
-	    font-size: 25px;
-	  }
-	*/
+	  h1 {
+	     clear:both;
+  	     margin-top: 160px;
+          }
 	}
 
     </style>
@@ -135,9 +131,10 @@
     </script>
 </head>
 <body>
-    <h1><a href="/">Not the Only One - Search Database</a></h1>
+    <a href="/"><img id="logo" src="{{ url_for('static', filename='ntoo_logo.png') }}"/></a>
+    <h1><a href="/">Not the Only One</a></h1>
 
-    <h2>Introduction</h2>
+    <h2 id="introduction" >Introduction</h2>
     <div class="introduction">Not the Only One is a website that allows people to search {{ total_count }} Diversity, Equity and Inclusion articles, stories and quotes. Here are 9 items to get you started.</div>
 
     <h2>Related links:</h2>
