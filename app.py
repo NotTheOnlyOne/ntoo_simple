@@ -41,7 +41,7 @@ def index():
             title_lower, title, text_lower, text, url = row
             if search_query in title_lower or search_query in text_lower:
                 results.append((title, text, url))
-        return render_template('index.html', results=results,total_count=total_count)
+        return render_template('index.html', results=results,total_count=total_count,search_query=search_query)
     else:
         if 'search_query' in request.args:
             search_query = request.args['search_query'].lower()
@@ -50,7 +50,7 @@ def index():
                 title_lower, title, text_lower, text, url = row
                 if search_query in title_lower or search_query in text_lower:
                     results.append((title, text, url))
-            return render_template('index.html', results=results,total_count=total_count)
+            return render_template('index.html', results=results,total_count=total_count,search_query=search_query)
         else:
 
             random_rows = choose_random_rows(data,choose_number_initial_items)

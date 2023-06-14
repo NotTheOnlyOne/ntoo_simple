@@ -28,7 +28,7 @@
             margin: 0;
             padding: 20px;
         }
-	#statistics_search, #statistics {
+	#search_query, #statistics_search, #statistics {
 	    margin-top: 10px;
 	    margin-bottom: 10px;
 	}
@@ -148,8 +148,18 @@
     {% if total_count %}
 	<div id="statistics">Total items:{{ total_count }}</div>
     {% endif %}
+    {% if search_query %}
+        <div id="search_query">Link back to this search query: <a href="/?search_query={{ search_query }}">{{ search_query }}</a></div>
+    {% else %}
+        <div id="search_query">Link back to this search query: N/A </div>
+    {% endif %}
     <form action="/" method="POST">
+    {% if search_query %}
+        <input type="text" name="search_query" value="{{ search_query }}">
+    {% else %}
         <input type="text" name="search_query" placeholder="Enter search query" required>
+    {% endif %}
+
         <button type="submit">Search</button>
     </form>
     {% if results %}
