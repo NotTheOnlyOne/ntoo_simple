@@ -123,7 +123,7 @@
     <script>
 
         function copyToClipboard(title, text, url) {
-            const data = `${title}\n${text}\n${url}`;
+            const data = `${title}\n\n${text}\n\n${url}`;
             navigator.clipboard.writeText(data).then(function() {
                 alert('Copied to clipboard!');
             }).catch(function() {
@@ -163,7 +163,7 @@
                     <div class="text">{{ result[1]|truncate(800, True, '...') }}</div>
 		    <div class="btn-group">
 		        <a href="{{ result[2] }}" class="btn btn-link url-btn">Original URL</a>
-                        <button class="copy-btn" onclick="copyToClipboard('{{ result[0] }}\n', '{{ result[1] }}\n', '{{ result[2] }}\n')">Copy</button>
+                        <button class="copy-btn" onclick="copyToClipboard('{{ result[0] }}', '{{ result[1] }}', '{{ result[2] }}')">Copy</button>
 	            </div>
                 </div>
             {% endfor %}
