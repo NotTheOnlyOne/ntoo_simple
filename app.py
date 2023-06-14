@@ -43,14 +43,22 @@ def index():
                 results.append((title, text, url))
         return render_template('index.html', results=results,total_count=total_count)
     else:
-        random_rows = choose_random_rows(data,choose_number_initial_items)
-        results = []
-        for random_row in random_rows:
-            title_lower, title, text_lower, text, url = random_row
-            results.append((title, text, url))
-            		
-        
-        return render_template('index.html',results=results,total_count=total_count)
+        if 'search_query' in request.args:
+            search_query = request.args['search_query'].lower()
+            results = []
+            for row in data:
+                title_lower, title, text_lower, text, url = row
+                if search_query in title_lower or search_query in text_lower:
+                    results.append((title, text, url))
+            return render_template('index.html', results=results,total_count=total_count)
+        else:
+
+            random_rows = choose_random_rows(data,choose_number_initial_items)
+            results = []
+            for random_row in random_rows:
+                title_lower, title, text_lower, text, url = random_row
+                results.append((title, text, url))
+            return render_template('index.html',results=results,total_count=total_count)
 
 if __name__ == '__main__':
     app.run(port=5000)
