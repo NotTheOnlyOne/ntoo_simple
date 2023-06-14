@@ -47,7 +47,7 @@
         }
         .tile {
             border: 1px solid #ccc;
-            padding: 10px;
+            padding: 20px;
             border-radius: 5px;
             background-color: #f9f9f9;
             width: 300px;
@@ -57,13 +57,14 @@
         }
 
 	.btn-group {
+	    margin-top: 20px;
 	    position: absolute; /* Added */
 	    bottom: 10px; /* Added */
 	}
         .tile h3 {
             margin-top: 0;
         }
-        .tile p {
+        .tile div.text {
             margin-bottom: 35px;
 	    font-size: 20px;
 	    overflow-wrap: break-word;
@@ -113,6 +114,9 @@
 	     clear:both;
   	     margin-top: 160px;
           }
+	  .tile {
+	     max-height:800px;
+	  }
 	}
 
     </style>
@@ -121,7 +125,7 @@
         function copyToClipboard(title, text, url) {
             const data = `${title}\n${text}\n${url}`;
             navigator.clipboard.writeText(data).then(function() {
-                // alert('Copied to clipboard!');
+                alert('Copied to clipboard!');
             }).catch(function() {
                 alert('Unable to copy to clipboard!');
             });
@@ -156,7 +160,7 @@
             {% for result in results %}
                 <div class="tile">
                     <h3>{{ result[0] }}</h3>
-                    <p>{{ result[1]|truncate(800, True, '...') }}</p>
+                    <div class="text">{{ result[1]|truncate(800, True, '...') }}</div>
 		    <div class="btn-group">
 		        <a href="{{ result[2] }}" class="btn btn-link url-btn">Original URL</a>
                         <button class="copy-btn" onclick="copyToClipboard('{{ result[0] }}\n', '{{ result[1] }}\n', '{{ result[2] }}\n')">Copy</button>
