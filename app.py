@@ -1,6 +1,8 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 import csv
 import random
+import requests
+from bs4 import BeautifulSoup
 
 app = Flask(__name__, static_folder='static')
 
@@ -59,6 +61,51 @@ def index():
                 title_lower, title, text_lower, text, url = random_row
                 results.append((title, text, url))
             return render_template('index.html',results=results,total_count=total_count)
+
+
+@app.route('/submit_url', methods=['GET', 'POST'])
+def submit_url():
+    if request.method == 'POST':
+        url_to_submit = request.form['url_to_submit']
+        
+        # Get the title of the submitted URL
+        title = get_url_title(url_to_submit)
+        
+        print(title)
+
+
+        # Replace with appropriate entry IDs and form URL
+        form_url = "https://docs.google.com/forms/d/e/1FAIpQLScqWMQsFNLQZ3sMQue8cG9zFF5gP-soiJcbPE9WNm0dmiLSHA/formResponse"
+        entry_ids = {
+            "entry.123456789": title,
+            "entry.987654321": url_to_submit,
+            "entry.246813579": "..."
+        }
+        
+        submit_form(form_url, entry_ids)
+        return render_template('submit_url.html')
+    
+    return render_template('submit_url.html')
+
+def get_url_title(url):
+    try:
+        response = requests.get(url)
+        soup = BeautifulSoup(response.content, 'html.parser')
+        title = soup.title.string
+        return title
+    except Exception as e:
+        print(f"Error fetching URL title: {e}")
+        return "Title Not Found"
+
+def submit_form(form_url, data):
+    # Submitting the form using requests
+    try:
+        response = requests.post(form_url, data=data)
+        # You can handle the response here
+        print("Form submitted successfully")
+    except requests.RequestException as e:
+        print("Error submitting form:", e)
+
 
 if __name__ == '__main__':
     app.run(port=5001)
