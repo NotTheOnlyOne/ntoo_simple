@@ -75,15 +75,20 @@ def submit_url():
 
 
         # Replace with appropriate entry IDs and form URL
-        form_url = "https://docs.google.com/forms/d/e/1FAIpQLScqWMQsFNLQZ3sMQue8cG9zFF5gP-soiJcbPE9WNm0dmiLSHA/formResponse"
+        form_url = "https://docs.google.com/forms/d/e/1FAIpQLScqWMQsFNLQZ3sMQue8cG9zFF5gP-soiJcbPE9WNm0dmiLSHA/viewform"
         entry_ids = {
-            "entry.123456789": title,
-            "entry.987654321": url_to_submit,
-            "entry.246813579": "..."
+            "entry.759453538": title,
+            "entry.1621102160": url_to_submit
         }
+
+        # Constructing the query parameters for the redirect URL
+        query_params = '&'.join([f'{key}={value}' for key, value in entry_ids.items()])
         
-        submit_form(form_url, entry_ids)
-        return render_template('submit_url.html')
+        # Constructing the final redirect URL with query parameters
+        redirect_url = f'{form_url}?{query_params}'
+        print(redirect_url) 
+        return redirect(redirect_url)
+        
     
     return render_template('submit_url.html')
 
@@ -96,16 +101,6 @@ def get_url_title(url):
     except Exception as e:
         print(f"Error fetching URL title: {e}")
         return "Title Not Found"
-
-def submit_form(form_url, data):
-    # Submitting the form using requests
-    try:
-        response = requests.post(form_url, data=data)
-        # You can handle the response here
-        print("Form submitted successfully")
-    except requests.RequestException as e:
-        print("Error submitting form:", e)
-
 
 if __name__ == '__main__':
     app.run(port=5001)
