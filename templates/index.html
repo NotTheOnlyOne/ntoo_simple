@@ -128,7 +128,7 @@
     <script>
 
         function copyToClipboard(title, text, url) {
-            const data = `${title}\n\n${text}\n\n${url}\n\nThis item was found via the website Not the Only One where there are over {{ total_count - (total_count % 100) }} other Diversity, Equity and Inclusion articles, stories and quotes.`;
+            const data = `${title}\n\n${text}\n\n${url}\n\nFound via nottheonlyone.org as one of {{ total_count - (total_count % 100) }}+ #DEI #Diversity, #Equity and #Inclusion items.`;
             navigator.clipboard.writeText(data).then(function() {
                 //alert('Copied to clipboard!');
             }).catch(function() {
