@@ -13,19 +13,29 @@ choose_number_initial_items = 9
 
 # Load the data from the TSV file
 def load_data():
+    no_title = 0
+    snapshot = 0
     global data
     global total_count
     with open('database_ntoo.tsv', 'r', encoding='utf-8') as tsvfile:
         reader = csv.reader(tsvfile, delimiter='\t')
         next(reader)  # Skip the header
         for row in reader:
+            skip_data = False
             title = row[1]
             text = row[2]
             url = row[3]
-            data.append((title.lower(), title, text.lower(), text, url))
+
+            if title == "" and text =="":
+                no_title = no_title + 1
+                skip_data = True
+            if title == "Snapshot":
+                snapshot = snapshot + 1
+
+            if not skip_data:
+                data.append((title.lower(), title, text.lower(), text, url))
 
     total_count = len(data)
-
 
 def choose_random_rows(data,choose_number_initial_items):
     random_rows = random.sample(data, choose_number_initial_items)
