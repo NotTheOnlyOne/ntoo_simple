@@ -44,10 +44,26 @@ def choose_random_rows(data,choose_number_initial_items):
     random_rows  = []
     for row in extra_random_rows:
         title_lower, title, text_lower, text, url = row
-        if title == "Snapshot" or title == "Link":
+
+        if title in ("Snapshot","Link", "Link 2", "Link 1"):
             continue
-        else:
-            random_rows.append(row)
+
+        if title.startswith("http") and text =="":
+            continue
+
+        if title.startswith("Post | LinkedIn") and text =="":
+            continue
+
+        if title.startswith("Link ("):
+            continue
+
+        if title.startswith("Link 1 ("):
+            continue
+
+        if title.startswith("Link 2 ("):
+            continue
+
+        random_rows.append(row)
 
         if len(random_rows) == choose_number_initial_items:
             break
