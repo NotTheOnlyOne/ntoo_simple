@@ -38,7 +38,20 @@ def load_data():
     total_count = len(data)
 
 def choose_random_rows(data,choose_number_initial_items):
-    random_rows = random.sample(data, choose_number_initial_items)
+    extra_random_rows_to_filter = 10
+    extra_random_rows = random.sample(data, choose_number_initial_items*extra_random_rows_to_filter)
+
+    random_rows  = []
+    for row in extra_random_rows:
+        title_lower, title, text_lower, text, url = row
+        if title == "Snapshot":
+            continue
+        else:
+            random_rows.append(row)
+
+        if len(random_rows) == choose_number_initial_items:
+            break
+
     return random_rows
 
 
