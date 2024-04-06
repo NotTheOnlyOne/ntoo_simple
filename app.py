@@ -44,7 +44,7 @@ def choose_random_rows(data,choose_number_initial_items):
     random_rows  = []
     for row in extra_random_rows:
         title_lower, title, text_lower, text, url = row
-        if title == "Snapshot":
+        if title == "Snapshot" or title == "Link":
             continue
         else:
             random_rows.append(row)
