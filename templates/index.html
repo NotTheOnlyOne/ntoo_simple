@@ -130,7 +130,7 @@
     <script>
 
         function copyToClipboard(title, text, url) {
-            const data = `${title}\n\n${text}\n\n${url}\n\nFound via nottheonlyone.org as one of {{ total_count - (total_count % 100) }}+ #DEI #Diversity, #Equity and #Inclusion items.`;
+            const data = `${title}\n\n${text}\n\n${url}\n\nFound via nottheonlyone.org as one of {{ "{:,}".format(total_count - (total_count % 100)) }}+ #DEI #Diversity, #Equity and #Inclusion items.`;
             navigator.clipboard.writeText(data).then(function() {
                 //alert('Copied to clipboard!');
             }).catch(function() {
@@ -144,7 +144,7 @@
     <h1><a href="/">Not the Only One</a></h1>
 
     <h2 id="introduction" >Introduction</h2>
-    <div class="introduction">Not the Only One is a website that allows people to search over {{ total_count - (total_count % 100) }} Diversity, Equity and Inclusion articles, stories and quotes. If you don't enter in a search there are 9 items randomly selected to get you started.</div>
+    <div class="introduction">Not the Only One is a website that allows people to search over {{ "{:,}".format(total_count - (total_count % 100)) }} Diversity, Equity and Inclusion articles, stories and quotes. If you don't enter in a search there are 9 items randomly selected to get you started.</div>
     <div>Want to start on something specific? Why not try:
          <ul>
             <li><a href="?search_query=system">System</a> - which shows items on systemic discrimination</li>
@@ -165,7 +165,7 @@
     	<li><a href="https://www.practicaldiversity.org/">Practical Diversity and Inclusion website.</a></li>
     </ul>
     {% if total_count %}
-	<div id="statistics">Total items:{{ total_count }}</div>
+	<div id="statistics">Total items:{{ "{:,}".format(total_count) }}</div>
     {% endif %}
     {% if search_query %}
         <div id="search_query">Link back to this search query: <a href="/?search_query={{ search_query }}">{{ search_query }}</a></div>
