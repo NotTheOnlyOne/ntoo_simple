@@ -31,6 +31,7 @@ def load_data():
                 skip_data = True
             if title == "Snapshot":
                 snapshot = snapshot + 1
+                skip_data = True
 
             if not skip_data:
                 data.append((title.lower(), title, text.lower(), text, url))
