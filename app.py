@@ -29,6 +29,7 @@ def load_data():
             if title == "" and text =="":
                 no_title = no_title + 1
                 skip_data = True
+
             if title == "Snapshot":
                 snapshot = snapshot + 1
                 skip_data = True
