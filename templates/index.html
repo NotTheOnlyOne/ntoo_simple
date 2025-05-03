@@ -188,11 +188,11 @@
         <div class="tiles-container">
             {% for result in results %}
                 <div class="tile">
-                    <h3>{{ result[0] or '' | truncate(300, True, '...') }}</h3>
-                    <div class="text">{{ result[1] or '' |truncate(600, True, '...') }}</div>
+                    <h3>{{ result[0] }} - {{ result[1] or '' | truncate(300, True, '...') }}</h3>
+                    <div class="text">{{ result[2] or '' |truncate(600, True, '...') }}</div>
 		    <div class="btn-group">
-		        <a href="{{ result[2] }}" class="btn btn-link url-btn">Original URL</a>
-                        <button class="copy-btn" onclick="copyToClipboard('{{ result[0]|replace("\"","")|replace("’","\\’")|replace("`","\\`")|replace("'", "\\'")  }}', '{{ result[1]|replace("\"","")|replace("’","\\’")|replace("`","\\`")|replace("'", "\\'")  }}', '{{ result[2] }}')">Copy</button>
+		        <a href="{{ result[3] }}" class="btn btn-link url-btn">Original URL</a>
+                        <button class="copy-btn" onclick="copyToClipboard('{{ result[0]|replace("\"","")|replace("’","\\’")|replace("`","\\`")|replace("'", "\\'")  }}', '{{ result[2]|replace("\"","")|replace("’","\\’")|replace("`","\\`")|replace("'", "\\'")  }}', '{{ result[3] }}')">Copy</button>
 	            </div>
                 </div>
             {% endfor %}

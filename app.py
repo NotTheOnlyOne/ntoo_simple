@@ -36,7 +36,7 @@ def choose_random_rows(choose_number_initial_items):
 
     # Fetch sampled rows
     placeholders = ",".join("?" for _ in sampled_ids)
-    cursor.execute(f"SELECT LOWER(title) AS title_lower, title, LOWER(key_text) AS text_lower,key_text, link FROM {table_name} WHERE id IN ({placeholders})", sampled_ids)
+    cursor.execute(f"SELECT id, LOWER(title) AS title_lower, title, LOWER(key_text) AS text_lower,key_text, link FROM {table_name} WHERE id IN ({placeholders})", sampled_ids)
     random_rows = cursor.fetchall()
 
     conn.close()
@@ -46,11 +46,25 @@ def find_items(search_query):
     conn = sqlite3.connect(db_name)
     cursor = conn.cursor()
 
-    cursor.execute(f"""
-        SELECT title, key_text, link
-        FROM {table_name}
-        WHERE LOWER(title) LIKE ? OR LOWER(key_text) LIKE ?
-    """, (f'%{search_query}%', f'%{search_query}%'))
+    # Try to convert search_query to integer
+    try:
+        search_id = int(search_query)
+        is_int = True
+    except ValueError:
+        is_int = False
+
+    if is_int:
+        cursor.execute(f"""
+            SELECT id, title, key_text, link
+            FROM {table_name}
+            WHERE id = ? OR LOWER(title) LIKE ? OR LOWER(key_text) LIKE ?
+        """, (search_id, f'%{search_query.lower()}%', f'%{search_query.lower()}%'))
+    else:
+        cursor.execute(f"""
+            SELECT id, title, key_text, link
+            FROM {table_name}
+            WHERE LOWER(title) LIKE ? OR LOWER(key_text) LIKE ?
+        """, (f'%{search_query.lower()}%', f'%{search_query.lower()}%'))
 
     results = cursor.fetchall()
     conn.close()
@@ -73,8 +87,8 @@ def index():
             random_rows = choose_random_rows(choose_number_initial_items)
             results = []
             for random_row in random_rows:
-                title_lower, title, text_lower, text, url = random_row
-                results.append((title, text, url))
+                id, title_lower, title, text_lower, text, url = random_row
+                results.append((id, title, text, url))
 
             return render_template('index.html',results=results,total_count=total_count)
 
