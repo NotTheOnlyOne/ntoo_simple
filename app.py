@@ -86,6 +86,7 @@ def find_items(search_query):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    total_count = get_total_count()
     if request.method == 'POST':
         search_query = request.form['search_query'].lower()
         results = find_items(search_query) 
@@ -143,6 +144,5 @@ def get_url_title(url):
         return "Title Not Found"
 
 if __name__ == '__main__':
-    total_count = get_total_count()
     app.run(port=5001)
     
