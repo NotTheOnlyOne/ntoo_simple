@@ -14,6 +14,18 @@ choose_number_initial_items = 9
 db_name = "database_ntoo.db"
 table_name = "ntoo_item"
 
+def get_total_count():
+    
+    # Connect to the database and read rows
+    conn = sqlite3.connect(db_name)
+    cursor = conn.cursor()
+
+    # Fetch total rows count to avoid exceeding it during random sampling
+    cursor.execute(f"SELECT COUNT(*) FROM {table_name}")
+    total_count = cursor.fetchone()[0]
+    return total_count
+
+
 def choose_random_rows(choose_number_initial_items):
 
     total_to_fetch = choose_number_initial_items
@@ -130,5 +142,6 @@ def get_url_title(url):
         return "Title Not Found"
 
 if __name__ == '__main__':
+    total_count = get_total_count()
     app.run(port=5001)
-
+    
