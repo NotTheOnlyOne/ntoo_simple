@@ -65,7 +65,7 @@ def index():
         return render_template('index.html', results=results,total_count=total_count,search_query=search_query)
     else:
         if 'search_query' in request.args:
-            search_query = request.form['search_query'].lower()
+            search_query = request.args['search_query'].lower()
             results = find_items(search_query) 
             return render_template('index.html', results=results,total_count=total_count,search_query=search_query)
         else:
