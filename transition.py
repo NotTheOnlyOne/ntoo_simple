@@ -2,9 +2,34 @@ import sqlite3
 import pandas as pd
 
 # Load TSV file
-tsv_file_path = "test.tsv"
 tsv_file_path = "database_ntoo.tsv"
 df = pd.read_csv(tsv_file_path, sep="\t", on_bad_lines='skip')
+
+# Rename columns if necessary (adjust to match actual column names)
+# Assumes the file has at least these columns: "title", "text", "url"
+# If column names differ, adjust them below
+title_col = df.columns[1]
+text_col = df.columns[2]
+
+# Apply filtering logic
+def filter_rows(df):
+    def should_keep(row):
+        title = str(row[title_col]).strip()
+        text = str(row[text_col]).strip()
+
+        if title in ("Snapshot", "Link", "Link 1", "Link 2"):
+            return False
+        if title.startswith("http") and text == "":
+            return False
+        if title.startswith("Post | LinkedIn") and text == "":
+            return False
+        if any(title.startswith(prefix) for prefix in ("Link (", "Link 1 (", "Link 2 (")):
+            return False
+        return True
+
+    return df[df.apply(should_keep, axis=1)]
+
+df = filter_rows(df)
 
 # Database setup
 db_name = "database_ntoo.db"
@@ -34,5 +59,5 @@ df.to_sql(table_name, conn, if_exists='append', index=False)
 conn.commit()
 conn.close()
 
-print(f"Data inserted into {db_name}, table '{table_name}' with auto-incrementing ID.")
+print(f"Filtered data inserted into {db_name}, table '{table_name}' with auto-incrementing ID.")
 
