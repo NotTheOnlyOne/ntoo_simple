@@ -144,7 +144,7 @@
     <h1><a href="/">Not the Only One</a></h1>
 
     <h2 id="introduction" >Introduction</h2>
-    <div class="introduction">Not the Only One is a website that allows people to search over {{ "{:,}".format(total_count - (total_count % 100)) }} Diversity, Equity and Inclusion articles, stories and quotes. If you don't enter in a search there are 9 items randomly selected to get you started.</div>
+    <div class="introduction">Not the Only One is a website that allows people to search over {{ "{:,}".format(total_count - (total_count % 100)) }} Diversity, Equity and Inclusion articles, stories and quotes. If you don't enter in a search there are 9 items randomly selected to get you started. For more Diversity, Equity, and Inclusion solutions try the <a href="https://www.practicaldiversity.org/">Practical Diversity and Inclusion website.</a></div>
     <div>Want to start on something specific? Why not try:
          <ul>
             <li><a href="?search_query=system">System</a> - which shows items on systemic discrimination</li>
@@ -157,13 +157,6 @@
     <div class="warning">Please note that many stories in the database are triggering. This is not an easy website to view.</div>
     
 
-    <h2>Related links:</h2>
-    <ul>
-	<li> <a href="/submit_url">Submit a website url.</a></li>
-	<li> <a href="https://docs.google.com/forms/d/e/1FAIpQLScqWMQsFNLQZ3sMQue8cG9zFF5gP-soiJcbPE9WNm0dmiLSHA/viewform">Submit your own item to this website via this form.</a></li>
-    	<li><a href="https://practical-dei.github.io/collaborate/">Collaboration DEI website.</a></li>
-    	<li><a href="https://www.practicaldiversity.org/">Practical Diversity and Inclusion website.</a></li>
-    </ul>
     {% if total_count %}
 	<div id="statistics">Total items:{{ "{:,}".format(total_count) }}</div>
     {% endif %}
@@ -188,11 +181,11 @@
         <div class="tiles-container">
             {% for result in results %}
                 <div class="tile">
-                    <h3>{{ result[0] }} - {{ result[1] or '' | truncate(300, True, '...') }}</h3>
-                    <div class="text">{{ result[2] or '' |truncate(600, True, '...') }}</div>
+                    <h3>{{ result[0] }} - {{ (result[1] or '') |truncate(200, True, '...') }}</h3>
+                    <div class="text">{{ (result[2] or '') |truncate(300, True, '...') }}</div>
 		    <div class="btn-group">
 		        <a href="{{ result[3] }}" class="btn btn-link url-btn">Original URL</a>
-                        <button class="copy-btn" onclick="copyToClipboard('{{ result[0]|replace("\"","")|replace("’","\\’")|replace("`","\\`")|replace("'", "\\'")  }}', '{{ result[2]|replace("\"","")|replace("’","\\’")|replace("`","\\`")|replace("'", "\\'")  }}', '{{ result[3] }}')">Copy</button>
+                        <button class="copy-btn" onclick="copyToClipboard('{{ result[0] }} - {{ result[1]|replace("\"","")|replace("’","\\’")|replace("`","\\`")|replace("'", "\\'")  }}', '{{ result[2]|replace("\"","")|replace("’","\\’")|replace("`","\\`")|replace("'", "\\'")  }}', '{{ result[3] }}')">Copy</button>
 	            </div>
                 </div>
             {% endfor %}
