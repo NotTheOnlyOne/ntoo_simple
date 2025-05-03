@@ -42,24 +42,31 @@ def choose_random_rows(choose_number_initial_items):
     conn.close()
     return random_rows
 
+def find_items(search_query):
+    conn = sqlite3.connect(db_name)
+    cursor = conn.cursor()
+
+    cursor.execute(f"""
+        SELECT title, key_text, link
+        FROM {table_name}
+        WHERE LOWER(title) LIKE ? OR LOWER(key_text) LIKE ?
+    """, (f'%{search_query}%', f'%{search_query}%'))
+
+    results = cursor.fetchall()
+    conn.close()
+    return results
+
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         search_query = request.form['search_query'].lower()
-        results = []
-        for row in data:
-            title_lower, title, text_lower, text, url = row
-            if search_query in title_lower or search_query in text_lower:
-                results.append((title, text, url))
+        results = find_items(search_query) 
         return render_template('index.html', results=results,total_count=total_count,search_query=search_query)
     else:
         if 'search_query' in request.args:
-            search_query = request.args['search_query'].lower()
-            results = []
-            for row in data:
-                title_lower, title, text_lower, text, url = row
-                if search_query in title_lower or search_query in text_lower:
-                    results.append((title, text, url))
+            search_query = request.form['search_query'].lower()
+            results = find_items(search_query) 
             return render_template('index.html', results=results,total_count=total_count,search_query=search_query)
         else:
 
@@ -69,11 +76,6 @@ def index():
                 title_lower, title, text_lower, text, url = random_row
                 results.append((title, text, url))
 
-
-            print("-------------")
-            print(results[0][0])
-            print(results[0][1])
-            print(results[0][2])
             return render_template('index.html',results=results,total_count=total_count)
 
 
