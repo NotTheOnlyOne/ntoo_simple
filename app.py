@@ -1,10 +1,10 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, send_file
 import csv
 import random
 import requests
 from bs4 import BeautifulSoup
 import sqlite3
-
+import os
 app = Flask(__name__, static_folder='static')
 
 
@@ -131,31 +131,11 @@ def add_item():
     return render_template('add_item.html', preset_title=preset_title, preset_link=preset_link)
 
 
-@app.route('/submit_url', methods=['GET', 'POST'])
-def submit_url():
-    if request.method == 'POST':
-        url_to_submit = request.form['url_to_submit']
-        
-        # Get the title of the submitted URL
-        title = get_url_title(url_to_submit)
-        
+@app.route("/download_database")
+def serve_database_file():
+    db_path = os.path.join(app.root_path, "database_ntoo.db")
+    return send_file(db_path, as_attachment=True)
 
-        # Replace with appropriate entry IDs and form URL
-        form_url = "https://docs.google.com/forms/d/e/1FAIpQLScqWMQsFNLQZ3sMQue8cG9zFF5gP-soiJcbPE9WNm0dmiLSHA/viewform"
-        entry_ids = {
-            "entry.759453538": title,
-            "entry.1621102160": url_to_submit
-        }
-
-        # Constructing the query parameters for the redirect URL
-        query_params = '&'.join([f'{key}={value}' for key, value in entry_ids.items()])
-        
-        # Constructing the final redirect URL with query parameters
-        redirect_url = f'{form_url}?{query_params}'
-        return redirect(redirect_url)
-        
-    
-    return render_template('submit_url.html')
 
 def get_url_title(url):
     try:
