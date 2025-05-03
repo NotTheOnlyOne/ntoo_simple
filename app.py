@@ -106,6 +106,30 @@ def index():
 
             return render_template('index.html',results=results,total_count=total_count)
 
+@app.route('/add_item', methods=['GET', 'POST'])
+def add_item():
+    if request.method == 'POST':
+        title = request.form['title']
+        link = request.form['link']
+        key_text = request.form['key_text']
+        
+        # Insert into the SQLite database
+        conn = sqlite3.connect(db_name)
+        cursor = conn.cursor()
+        cursor.execute(f"""
+            INSERT INTO {table_name} (title, key_text, link)
+            VALUES (?, ?, ?)
+        """, (title, key_text, link))
+        conn.commit()
+        conn.close()
+
+        return redirect('/')
+    
+    # Handle GET: use query parameters to pre-fill
+    preset_title = request.args.get('title', '')
+    preset_link = request.args.get('link', '')
+    return render_template('add_item.html', preset_title=preset_title, preset_link=preset_link)
+
 
 @app.route('/submit_url', methods=['GET', 'POST'])
 def submit_url():

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add New Item</title>
+</head>
+<body>
+    <h1>Add a New Entry</h1>
+    <form method="POST">
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="title" value="{{ preset_title }}" required><br><br>
+
+        <label for="link">Link:</label><br>
+        <input type="url" id="link" name="link" value="{{ preset_link }}" required><br><br>
+
+        <label for="key_text">Key Text:</label><br>
+        <textarea id="key_text" name="key_text" required></textarea><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+    <br>
+    <a href="/">Back to Home</a>
+</body>
+</html>
