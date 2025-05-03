@@ -70,7 +70,8 @@ def find_items(search_query):
             SELECT id, title, key_text, link
             FROM {table_name}
             WHERE id = ? OR LOWER(title) LIKE ? OR LOWER(key_text) LIKE ?
-        """, (search_id, f'%{search_query.lower()}%', f'%{search_query.lower()}%'))
+            ORDER BY (id = ?) DESC
+        """, (search_id, f'%{search_query.lower()}%', f'%{search_query.lower()}%', search_id))
     else:
         cursor.execute(f"""
             SELECT id, title, key_text, link
