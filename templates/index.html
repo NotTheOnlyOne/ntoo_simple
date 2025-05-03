@@ -185,7 +185,7 @@
                     <div class="text">{{ (result[2] or '') |truncate(500, True, '...') }}</div>
 		    <div class="btn-group">
 		        <a href="{{ result[3] }}" class="btn btn-link url-btn">Original URL</a>
-                        <button class="copy-btn" onclick="copyToClipboard('{{ result[0] }} - {{ result[1]|replace("\"","")|replace("’","\\’")|replace("`","\\`")|replace("'", "\\'")  }}', '{{ result[2]|replace("\"","")|replace("’","\\’")|replace("`","\\`")|replace("'", "\\'")  }}', '{{ result[3] }}')">Copy</button>
+                        <button class="copy-btn" onclick="copyToClipboard('{{ result[0] }} - {{ result[1]|replace("\"","")|replace("’","\\’")|replace("`","\\`")|replace("'", "\\'")  }}', '{{ result[2]|replace("\"","")|replace("’","\\’")|replace("`","\\`")|replace("'", "\\'")|truncate(300, True, '...') }}', '{{ result[3] }}')">Copy</button>
 	            </div>
                 </div>
             {% endfor %}
