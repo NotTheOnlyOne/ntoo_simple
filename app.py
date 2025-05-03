@@ -3,6 +3,7 @@ import csv
 import random
 import requests
 from bs4 import BeautifulSoup
+import sqlite3
 
 app = Flask(__name__, static_folder='static')
 
@@ -10,70 +11,36 @@ app = Flask(__name__, static_folder='static')
 data = []
 total_count = 0
 choose_number_initial_items = 9
+db_name = "database_ntoo.db"
+table_name = "ntoo_item"
 
-# Load the data from the TSV file
-def load_data():
-    no_title = 0
-    snapshot = 0
-    global data
-    global total_count
-    with open('database_ntoo.tsv', 'r', encoding='utf-8') as tsvfile:
-        reader = csv.reader(tsvfile, delimiter='\t')
-        next(reader)  # Skip the header
-        for row in reader:
-            skip_data = False
-            title = row[1]
-            text = row[2]
-            url = row[3]
+def choose_random_rows(choose_number_initial_items):
 
-            if title == "" and text =="":
-                no_title = no_title + 1
-                skip_data = True
+    total_to_fetch = choose_number_initial_items
 
-            if title == "Snapshot":
-                snapshot = snapshot + 1
-                skip_data = True
+    # Connect to the database and read rows
+    conn = sqlite3.connect(db_name)
+    cursor = conn.cursor()
 
-            if not skip_data:
-                data.append((title.lower(), title, text.lower(), text, url))
+    # Fetch total rows count to avoid exceeding it during random sampling
+    cursor.execute(f"SELECT COUNT(*) FROM {table_name}")
+    total_rows = cursor.fetchone()[0]
 
-    total_count = len(data)
+    if total_rows < total_to_fetch:
+        total_to_fetch = total_rows
 
-def choose_random_rows(data,choose_number_initial_items):
-    extra_random_rows_to_filter = 10
-    extra_random_rows = random.sample(data, choose_number_initial_items*extra_random_rows_to_filter)
+    # Get all row IDs, sample them randomly
+    cursor.execute(f"SELECT id FROM {table_name}")
+    all_ids = [row[0] for row in cursor.fetchall()]
+    sampled_ids = random.sample(all_ids, total_to_fetch)
 
-    random_rows  = []
-    for row in extra_random_rows:
-        title_lower, title, text_lower, text, url = row
+    # Fetch sampled rows
+    placeholders = ",".join("?" for _ in sampled_ids)
+    cursor.execute(f"SELECT LOWER(title) AS title_lower, title, LOWER(key_text) AS text_lower,key_text, link FROM {table_name} WHERE id IN ({placeholders})", sampled_ids)
+    random_rows = cursor.fetchall()
 
-        if title in ("Snapshot","Link", "Link 2", "Link 1"):
-            continue
-
-        if title.startswith("http") and text =="":
-            continue
-
-        if title.startswith("Post | LinkedIn") and text =="":
-            continue
-
-        if title.startswith("Link ("):
-            continue
-
-        if title.startswith("Link 1 ("):
-            continue
-
-        if title.startswith("Link 2 ("):
-            continue
-
-        random_rows.append(row)
-
-        if len(random_rows) == choose_number_initial_items:
-            break
-
+    conn.close()
     return random_rows
-
-
-load_data()  # Call load_data() to initialize the data at the start
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -96,11 +63,17 @@ def index():
             return render_template('index.html', results=results,total_count=total_count,search_query=search_query)
         else:
 
-            random_rows = choose_random_rows(data,choose_number_initial_items)
+            random_rows = choose_random_rows(choose_number_initial_items)
             results = []
             for random_row in random_rows:
                 title_lower, title, text_lower, text, url = random_row
                 results.append((title, text, url))
+
+
+            print("-------------")
+            print(results[0][0])
+            print(results[0][1])
+            print(results[0][2])
             return render_template('index.html',results=results,total_count=total_count)
 
 
@@ -112,8 +85,6 @@ def submit_url():
         # Get the title of the submitted URL
         title = get_url_title(url_to_submit)
         
-        print(title)
-
 
         # Replace with appropriate entry IDs and form URL
         form_url = "https://docs.google.com/forms/d/e/1FAIpQLScqWMQsFNLQZ3sMQue8cG9zFF5gP-soiJcbPE9WNm0dmiLSHA/viewform"
@@ -127,7 +98,6 @@ def submit_url():
         
         # Constructing the final redirect URL with query parameters
         redirect_url = f'{form_url}?{query_params}'
-        print(redirect_url) 
         return redirect(redirect_url)
         
     
