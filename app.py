@@ -58,14 +58,31 @@ def find_items(search_query):
     conn = sqlite3.connect(db_name)
     cursor = conn.cursor()
 
-    # Try to convert search_query to integer
-    try:
-        search_id = int(search_query)
-        is_int = True
-    except ValueError:
-        is_int = False
+    search_id = None
+    is_id_only = False
+    is_int = False
 
-    if is_int:
+    if search_query.startswith('#'):
+        # Search only by ID
+        try:
+            search_id = int(search_query[1:])
+            is_id_only = True
+        except ValueError:
+            search_id = None  # Invalid ID format
+    else:
+        try:
+            search_id = int(search_query)
+            is_int = True
+        except ValueError:
+            pass  # Not an integer
+
+    if is_id_only and search_id is not None:
+        cursor.execute(f"""
+            SELECT id, title, key_text, link
+            FROM {table_name}
+            WHERE id = ?
+        """, (search_id,))
+    elif is_int:
         cursor.execute(f"""
             SELECT id, title, key_text, link
             FROM {table_name}

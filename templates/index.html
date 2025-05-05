@@ -161,7 +161,7 @@
 	<div id="statistics">Total items:{{ "{:,}".format(total_count) }}</div>
     {% endif %}
     {% if search_query %}
-        <div id="search_query">Link back to this search query: <a href="/?search_query={{ search_query }}">{{ search_query }}</a></div>
+        <div id="search_query">Link back to this search query: <a href="/?search_query={{ search_query.replace("#","%23") }}">{{ search_query }}</a></div>
     {% else %}
         <div id="search_query">Link back to this search query: N/A </div>
     {% endif %}
@@ -186,6 +186,7 @@
 		    <div class="btn-group">
 		        <a href="{{ result[3] }}" class="btn btn-link url-btn">Original URL</a>
                         <button class="copy-btn" onclick="copyToClipboard('{{ result[0] }} - {{ result[1]|replace("\"","")|replace("’","\\’")|replace("`","\\`")|replace("'", "\\'")  }}', '{{ result[2]|replace("\"","")|replace("’","\\’")|replace("`","\\`")|replace("'", "\\'")|truncate(300, True, '...') }}', '{{ result[3] }}')">Copy</button>
+                        <a class = "btn btn-link url-btn" href="/?search_query=%23{{ result[0] }}">Link</a>
 	            </div>
                 </div>
             {% endfor %}
