@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Item - Not the Only One</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='ntoo_logo.png') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 20px;
+            margin: 0;
+            padding: 20px;
+        }
+
+        #logo {
+            width: 110px;
+            float: left;
+        }
+
+        h1 {
+            margin-top: 35px;
+            color: #ee6a2c;
+        }
+
+        h1 a {
+            text-decoration: none;
+            color: #ee6a2c;
+        }
+
+        h2 {
+            margin-top: 60px;
+        }
+
+        form {
+            max-width: 900px;
+            margin-top: 30px;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            font-size: 20px;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-top: 5px;
+        }
+
+        textarea {
+            height: 150px;
+        }
+
+        .submit-button {
+            background-color: #ee6a2c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 30px;
+        }
+
+        .submit-button:hover {
+            background-color: #d2551d;
+        }
+
+        .warning {
+            font-weight: bold;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+
+
+</head>
+<body>
+    <h1>Add a New Entry</h1>
+    <form method="POST">
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="title" value="{{ preset_title }}" required><br><br>
+
+        <label for="link">Link:</label><br>
+        <input type="text" id="link" name="link" value="{{ preset_link }}" required><br><br>
+
+        <label for="key_text">Key Text:</label><br>
+        <textarea id="key_text" name="key_text" ></textarea><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+    <br>
+    <a href="/">Back to Home</a>
+</body>
+</html>
