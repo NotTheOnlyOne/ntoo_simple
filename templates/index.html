@@ -184,8 +184,8 @@
                     <h3>{{ result[0] }} - {{ (result[1] or '') |truncate(200, True, '...') }}</h3>
                     <div class="text">{{ (result[2] or '') |truncate(500, True, '...') }}</div>
 		    <div class="btn-group">
-		        <a href="{{ result[3] }}" class="btn btn-link url-btn">Original URL</a>
-                        <button class="copy-btn" onclick="copyToClipboard('{{ result[0] }} - {{ result[1]|replace("\"","")|replace("’","\\’")|replace("`","\\`")|replace("'", "\\'")  }}', '{{ result[2]|replace("\"","")|replace("’","\\’")|replace("`","\\`")|replace("'", "\\'")|truncate(300, True, '...') }}', '{{ result[3] }}')">Copy</button>
+		        <a href="{{ result[3].split('?')[0] }}" class="btn btn-link url-btn">Original URL</a>
+                        <button class="copy-btn" onclick="copyToClipboard('{{ result[0] }} - {{ result[1]|replace("\"","")|replace("’","\\’")|replace("`","\\`")|replace("'", "\\'")  }}', '{{ result[2]|replace("\"","")|replace("’","\\’")|replace("`","\\`")|replace("'", "\\'")|truncate(300, True, '...') }}', '{{ result[3].split('?')[0] }}')">Copy</button>
                         <a class = "btn btn-link url-btn" href="/?search_query=%23{{ result[0] }}">Link</a>
 	            </div>
                 </div>
